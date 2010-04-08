@@ -36,10 +36,10 @@
 		}
 
 		#kodakmoment img {
-			-webkit-transition:all 3.0s ease-in-out;
+			-webkit-transition:all 1.0s ease-in-out;
 			-webkit-animation-name:pan,fade;
-			-webkit-animation-duration:15.0s;
-			-webkit-animation-iteration-count:1;
+			-webkit-animation-duration:12.0s;
+			-webkit-animation-iteration-count:infinite;
 		}
 
 		@-webkit-keyframes fade {
@@ -51,6 +51,20 @@
 		@-webkit-keyframes pan {
 			0% {-webkit-transform:translate(0,0) scale(1.0);}
 			100% {-webkit-transform:translate(-20px,-100px) scale(1.3);}
+		}
+		
+		/* Cache images using multiple backgrounds on hidden element */
+		#cache {
+			position:absolute;
+			bottom:0;
+			left:0;
+			display:none;
+			width:1px;
+			height:1px;
+			background:
+				url(armadilloaerospace.jpg) top left no-repeat,
+				url(sts116spacewalk.jpg) top left no-repeat,
+				url(sts130.jpg) top left no-repeat;
 		}
 
 		#sosumi {position:absolute; bottom:0; right:0; margin:1em; font-size:10pt; color:#ccc;}
@@ -67,6 +81,8 @@
 			2010. <a href="http://www.monstercyb.org/gordon">Monstercyb.org</a>. A part of the <a href="http://www.ocf.berkeley.edu/~gordeon">GordeonBleu</a> network. Images are public domain, courtesy of NASA.
 		</div>
 
+		<div id="cache"></div>
+
 		<script type="text/javascript">
 		var kodakmoment = document.getElementById("kodakmoment");
 		var photogenic = document.getElementById("photogenic");
@@ -82,20 +98,31 @@
 			if (e.animationName=="fade" && i<imageFilenamesLength) {
 				photogenic.setAttribute("src", imageFilenames[i]);
 				i++;
-				//to do: need to restart the animation with the new image
+				//console.log(photogenic.getAttribute("src"));
+				//console.log(e.animationName);
+				//console.log("if: " + i);
+			}
+			else if (e.animationName=="fade" && i>=imageFilenamesLength) {
+				//return to the beginning of the array with the first file
+				i=0;
+				photogenic.setAttribute("src", imageFilenames[i]);
+				i++;
+				//console.log(photogenic.getAttribute("src"));
+				//console.log(e.animationName);
+				//console.log("else: " + i);
 			}
 			else {
-				//to do: need to return to the beginning of the array with the first file			
 				return false;
 			}
 		}
 
 		//kodakmoment.addEventListener("webkitAnimationStart", fireStarter, false);
-		//kodakmoment.addEventListener("webkitAnimationIteration", iterationStation, false);
-		kodakmoment.addEventListener("webkitAnimationEnd", nextImage, false);
+		kodakmoment.addEventListener("webkitAnimationIteration", nextImage, false);
+		//kodakmoment.addEventListener("webkitAnimationEnd", nextImage, false);
 		</script>
 
 		<!--Created: 2010 April 7-->
+		<!--Revised: 2010 April 8-->
 		
 		<script type="text/javascript">
 			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
