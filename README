@@ -1,1 +1,3 @@
 Ken Burns Effect with CSS3 (with WebKit keyframes for animation). Gecko, Presto, and Trident effectively have no equivalents, so it will not work in those browsers. This is a proof of concept.
+
+Javascript is used to change images with alternating animations.
